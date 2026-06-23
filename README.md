@@ -102,8 +102,9 @@ make eval
 
 The first eval is intentionally small. It asks the ADK-facing agent to describe
 the guardrail workflow and expects the `describe_guardrail_workflow` tool to be
-used. Run this after Gemini credentials are available through `GOOGLE_API_KEY`,
-or after Vertex AI is configured with `GOOGLE_GENAI_USE_VERTEXAI=TRUE`.
+used. The ADK-facing agent runs OpenAI through LiteLLM and defaults to
+`openai/gpt-4o-mini`. Provide `OPENAI_API_KEY` before running evals. To override
+the model, set `OPENAI_ADK_MODEL` to another OpenAI LiteLLM model name.
 
 The Make target fails fast when credentials are missing and checks ADK's
 generated eval result JSON so failed cases do not appear green just because the
@@ -113,5 +114,5 @@ CLI process exited successfully.
 
 The first implementation keeps the proof loop deterministic so tests can run
 without model credentials. `app/agent.py` defines the ADK-facing root agent and
-tool used by the initial ADK eval once `google-adk` and model credentials are
-available.
+tool used by the initial ADK eval once `google-adk`, LiteLLM, and OpenAI model
+credentials are available.

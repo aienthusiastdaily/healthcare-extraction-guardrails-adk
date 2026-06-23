@@ -7,10 +7,11 @@ lint:
 	uv run ruff check .
 
 eval:
-	@if [ -z "$$GOOGLE_API_KEY" ] && [ "$$GOOGLE_GENAI_USE_VERTEXAI" != "TRUE" ]; then \
-		echo "make eval requires GOOGLE_API_KEY or GOOGLE_GENAI_USE_VERTEXAI=TRUE with Vertex AI config."; \
+	@if [ -z "$$OPENAI_API_KEY" ]; then \
+		echo "make eval requires OPENAI_API_KEY for the ADK LiteLLM OpenAI model."; \
 		exit 2; \
 	fi
+	@echo "Running ADK eval with $${OPENAI_ADK_MODEL:-openai/gpt-4o-mini} through LiteLLM."
 	uv run adk eval ./app tests/eval/evalsets/core_guardrails_eval.json --config_file_path=tests/eval/eval_config.json --print_detailed_results
 	uv run python scripts/assert_latest_adk_eval_result.py app/.adk/eval_history
 
