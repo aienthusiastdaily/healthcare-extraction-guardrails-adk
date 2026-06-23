@@ -1,0 +1,42 @@
+[
+  {
+    "decision": "detected_restricted_values",
+    "event_id": "audit-001",
+    "evidence_refs": [
+      "source:address",
+      "source:canary",
+      "source:claim_id",
+      "source:date_of_birth",
+      "source:diagnosis_like_text",
+      "source:document_type",
+      "source:fixture_id",
+      "source:member_id",
+      "source:patient_name",
+      "source:phone",
+      "source:provider_name",
+      "source:requested_service",
+      "source:routing_queue",
+      "source:synthetic_disclaimer",
+      "source:urgency"
+    ],
+    "safe_message": "Detected 8 restricted fields for policy review.",
+    "step": "sensitive_value_detection",
+    "withheld_count": 8
+  },
+  {
+    "decision": "human_review",
+    "event_id": "audit-002",
+    "evidence_refs": [],
+    "safe_message": "Sensitive synthetic values were detected and must be withheld before this document can move to a public or downstream surface.",
+    "step": "policy_decision",
+    "withheld_count": 8
+  },
+  {
+    "decision": "queued_for_review",
+    "event_id": "audit-003",
+    "evidence_refs": [],
+    "safe_message": "Routed to Prior authorization review with raw sensitive values withheld.",
+    "step": "human_review_routing",
+    "withheld_count": 8
+  }
+]

@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Lint, test, and smoke check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: python -m pip install --upgrade uv
+
+      - name: Install dependencies
+        run: uv sync --all-groups
+
+      - name: Lint Python
+        run: uv run ruff check .
+
+      - name: Run tests
+        run: uv run pytest -q
+
+      - name: Smoke test CLI outputs
+        run: |
+          uv run healthcare-guardrails-demo run-naive \
+            --fixture fixtures/sample/manifest.json \
+            --out outputs/ci-naive.json
+          uv run healthcare-guardrails-demo run-guarded \
+            --fixture fixtures/sample/manifest.json \
+            --out outputs/ci-guarded.json \
+            --policy-out outputs/ci-policy.json \
+            --audit-out outputs/ci-audit.json
+
+      - name: Verify guarded public examples contain no fake sensitive values
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          forbidden = [
+              "PHI_CANARY_PRIOR_AUTH_001",
+              "FAKE-MEMBER-042",
+              "FAKE-CLAIM-4242",
+              "Morgan Testpatient",
+              "555-010-4242",
+              "100 Example Care Lane",
+          ]
+          public_safe_files = [
+              Path("examples/guarded_safe_output.json"),
+              Path("examples/policy_decision.json"),
+              Path("examples/audit_trace.json"),
+              Path("outputs/ci-guarded.json"),
+              Path("outputs/ci-policy.json"),
+              Path("outputs/ci-audit.json"),
+          ]
+          findings = []
+          for path in public_safe_files:
+              text = path.read_text(encoding="utf-8")
+              for value in forbidden:
+                  if value in text:
+                      findings.append(f"{path}: {value}")
+          if findings:
+              raise SystemExit("Guarded output leaked fake sensitive values:\n" + "\n".join(findings))
+          PY
+
+      - name: Scan tracked files for obvious secrets
+        run: |
+          python - <<'PY'
+          import re
+          import subprocess
+          from pathlib import Path
+
+          patterns = [
+              re.compile(r"sk-[A-Za-z0-9_-]{20,}"),
+              re.compile(r"gho_[A-Za-z0-9_]+"),
+              re.compile(r"OPENAI_API_KEY\s*="),
+              re.compile(r"ANTHROPIC_API_KEY\s*="),
+              re.compile(r"GOOGLE_API_KEY\s*="),
+              re.compile(r"\b(SECRET|TOKEN|PASSWORD)\s*="),
+          ]
+          output = subprocess.check_output(["git", "ls-files", "-z"])
+          files = [item for item in output.decode("utf-8").split("\0") if item]
+          findings = []
+          for file_name in files:
+              path = Path(file_name)
+              try:
+                  text = path.read_text(encoding="utf-8")
+              except UnicodeDecodeError:
+                  continue
+              for line_number, line in enumerate(text.splitlines(), start=1):
+                  if any(pattern.search(line) for pattern in patterns):
+                      findings.append(f"{file_name}:{line_number}")
+
+          if findings:
+              raise SystemExit("Potential secrets found:\n" + "\n".join(findings))
+          PY

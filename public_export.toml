@@ -1,0 +1,69 @@
+[export]
+name = "healthcare-extraction-guardrails-adk"
+repository = "aienthusiastdaily/healthcare-extraction-guardrails-adk"
+description = "Allowlisted public companion repo snapshot for the AI Enthusiast Daily healthcare extraction guardrails article."
+
+include = [
+  ".github/workflows/ci.yml",
+  ".gitignore",
+  "DESIGN_SPEC.md",
+  "Makefile",
+  "README.md",
+  "app/**",
+  "examples/**",
+  "fixtures/README.md",
+  "fixtures/generated/README.md",
+  "fixtures/sample/**",
+  "outputs/README.md",
+  "public_export.toml",
+  "pyproject.toml",
+  "scripts/**",
+  "src/**",
+  "tests/**",
+  "uv.lock",
+]
+
+exclude = [
+  ".contexts/**",
+  ".env",
+  ".env.*",
+  ".git/**",
+  ".pytest_cache/**",
+  ".ruff_cache/**",
+  ".venv/**",
+  "**/.DS_Store",
+  "**/__pycache__/**",
+  "**/*.pyc",
+  "app/.adk/**",
+  "fixtures/generated/check/**",
+  "outputs/*.json",
+]
+
+[verification]
+forbidden_paths = [
+  ".contexts",
+  ".env",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".venv",
+  "app/.adk",
+  "fixtures/generated/check",
+  "outputs/check-audit.json",
+  "outputs/check-guarded.json",
+  "outputs/check-naive.json",
+  "outputs/check-policy.json",
+]
+
+secret_patterns = [
+  "sk-[A-Za-z0-9_-]{20,}",
+  "gho_[A-Za-z0-9_]+",
+  "OPENAI_API_KEY\\s*=",
+  "ANTHROPIC_API_KEY\\s*=",
+  "GOOGLE_API_KEY\\s*=",
+  "SECRET\\s*=",
+  "TOKEN\\s*=",
+  "PASSWORD\\s*=",
+]
+
+secret_scan_exclude = [
+]

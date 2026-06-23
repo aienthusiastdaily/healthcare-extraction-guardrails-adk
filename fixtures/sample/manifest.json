@@ -1,0 +1,23 @@
+{
+  "count": 1,
+  "fixtures": [
+    {
+      "document_type": "prior_authorization_request",
+      "expected": "expected/prior_auth_001.expected.json",
+      "fixture_id": "prior_auth_001",
+      "source": "source/prior_auth_001.yaml",
+      "variants": {
+        "text_layer_pdf": "pdf_text_layer/prior_auth_001.pdf"
+      }
+    }
+  ],
+  "manifest_path": "manifest.json",
+  "package": "aienthusiastdaily-fixtures",
+  "package_version": "0.1.0",
+  "seed": 42,
+  "template": "healthcare/prior_auth",
+  "template_title": "Prior Authorization Request",
+  "variants": [
+    "text-layer"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "document_type": "prior_authorization_request",
+  "fixture_id": "prior_auth_001",
+  "flow": "naive",
+  "leak_detected": true,
+  "leaked_values": [
+    "100 Example Care Lane, Testville, TS 00042",
+    "PHI_CANARY_PRIOR_AUTH_001",
+    "FAKE-CLAIM-4242",
+    "1980-04-17",
+    "Example radiculopathy-like note for synthetic testing",
+    "FAKE-MEMBER-042",
+    "Morgan Testpatient",
+    "555-010-4242"
+  ],
+  "unsafe_summary": "prior_authorization_request for Morgan Testpatient uses member ID FAKE-MEMBER-042 and canary PHI_CANARY_PRIOR_AUTH_001. Requested service: MRI lumbar spine without contrast."
+}

@@ -1,0 +1,42 @@
+[project]
+name = "healthcare-extraction-guardrails-adk"
+version = "0.1.0"
+description = "ADK companion demo for healthcare document extraction guardrails."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "aienthusiastdaily-fixtures @ git+https://github.com/aienthusiastdaily/aienthusiastdaily-fixtures.git@v0.1.0",
+  "google-adk[eval]>=1.0.0",
+  "rich>=13.9.0",
+  "typer>=0.20.0",
+]
+
+[project.scripts]
+healthcare-guardrails-demo = "healthcare_guardrails_demo.cli:app"
+
+[dependency-groups]
+dev = [
+  "pytest>=8.0.0",
+  "ruff>=0.8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/healthcare_guardrails_demo"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

@@ -1,0 +1,43 @@
+{
+  "description": "Core ADK-facing behavior for the healthcare extraction guardrails demo.",
+  "eval_cases": [
+    {
+      "conversation": [
+        {
+          "final_response": {
+            "parts": [
+              {
+                "text": "The workflow loads a synthetic fixture manifest, runs a naive flow to show a fake sensitive-value leak, detects synthetic sensitive findings, withholds disallowed fields from guarded output, routes restricted cases to human review, and writes safe audit events."
+              }
+            ],
+            "role": "model"
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "args": {},
+                "name": "describe_guardrail_workflow"
+              }
+            ]
+          },
+          "invocation_id": "describe_guardrails_1",
+          "user_content": {
+            "parts": [
+              {
+                "text": "Describe the healthcare extraction guardrails workflow. Use the available tool."
+              }
+            ]
+          }
+        }
+      ],
+      "eval_id": "describe_guardrail_workflow",
+      "session_input": {
+        "app_name": "app",
+        "state": {},
+        "user_id": "article_author"
+      }
+    }
+  ],
+  "eval_set_id": "core_guardrails_eval",
+  "name": "Core Guardrails Eval"
+}

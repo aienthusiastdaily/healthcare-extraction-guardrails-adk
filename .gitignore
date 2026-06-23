@@ -1,0 +1,9 @@
+.venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+*.pyc
+app/.adk/
+outputs/*.json
+fixtures/generated/*
+!fixtures/generated/README.md

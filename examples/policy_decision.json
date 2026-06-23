@@ -1,0 +1,16 @@
+{
+  "action": "human_review",
+  "reason": "Sensitive synthetic values were detected and must be withheld before this document can move to a public or downstream surface.",
+  "redacted_fields": [],
+  "surface": "public_summary",
+  "withheld_fields": [
+    "address",
+    "canary",
+    "claim_id",
+    "date_of_birth",
+    "diagnosis_like_text",
+    "member_id",
+    "patient_name",
+    "phone"
+  ]
+}

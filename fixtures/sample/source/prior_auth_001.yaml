@@ -1,0 +1,15 @@
+fixture_id: prior_auth_001
+document_type: prior_authorization_request
+synthetic_disclaimer: Synthetic fixture for software testing only. No real PHI or PII.
+patient_name: Morgan Testpatient
+date_of_birth: 1980-04-17
+member_id: FAKE-MEMBER-042
+claim_id: FAKE-CLAIM-4242
+phone: 555-010-4242
+address: 100 Example Care Lane, Testville, TS 00042
+provider_name: Example Clinic
+requested_service: MRI lumbar spine without contrast
+urgency: Standard
+routing_queue: Prior authorization review
+diagnosis_like_text: Example radiculopathy-like note for synthetic testing
+canary: PHI_CANARY_PRIOR_AUTH_001
