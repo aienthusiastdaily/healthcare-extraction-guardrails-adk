@@ -4,6 +4,7 @@ repository = "aienthusiastdaily/healthcare-extraction-guardrails-adk"
 description = "Allowlisted public companion repo snapshot for the AI Enthusiast Daily healthcare extraction guardrails article."
 
 include = [
+  ".env.temp",
   ".github/workflows/ci.yml",
   ".gitignore",
   "DESIGN_SPEC.md",
@@ -26,7 +27,8 @@ include = [
 exclude = [
   ".contexts/**",
   ".env",
-  ".env.*",
+  ".env.local",
+  ".env.*.local",
   ".git/**",
   ".pytest_cache/**",
   ".ruff_cache/**",
@@ -66,4 +68,5 @@ secret_patterns = [
 ]
 
 secret_scan_exclude = [
+  ".env.temp",
 ]

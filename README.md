@@ -13,7 +13,7 @@ This demo compares two paths over synthetic healthcare-like fixtures:
 No real PHI, real PII, real patient records, or real client data belong in this
 repo.
 
-Planned public repository:
+Public repository:
 
 ```text
 https://github.com/aienthusiastdaily/healthcare-extraction-guardrails-adk
@@ -24,6 +24,19 @@ https://github.com/aienthusiastdaily/healthcare-extraction-guardrails-adk
 ```bash
 uv sync
 ```
+
+## Environment
+
+The repo includes `.env.temp`, a public-safe template loaded by the Makefile for
+all script targets. Copy it to `.env` for local credentials:
+
+```bash
+cp .env.temp .env
+```
+
+Set `OPENAI_API_KEY` in `.env` before running ADK evals. `.env` is ignored by
+Git, while `.env.temp` keeps the expected variable names and safe defaults in
+the public repo.
 
 Before the fixture package is published to PyPI, the project depends on the
 tagged GitHub package:
@@ -64,7 +77,7 @@ uv run healthcare-guardrails-demo run-guarded --fixture fixtures/sample/manifest
 ## Test
 
 ```bash
-uv run pytest
+make test
 ```
 
 The tests assert that:
@@ -103,8 +116,9 @@ make eval
 The first eval is intentionally small. It asks the ADK-facing agent to describe
 the guardrail workflow and expects the `describe_guardrail_workflow` tool to be
 used. The ADK-facing agent runs OpenAI through LiteLLM and defaults to
-`openai/gpt-4o-mini`. Provide `OPENAI_API_KEY` before running evals. To override
-the model, set `OPENAI_ADK_MODEL` to another OpenAI LiteLLM model name.
+`openai/gpt-4o-mini`. Provide `OPENAI_API_KEY` in the shell or local `.env`
+before running evals. To override the model, set `OPENAI_ADK_MODEL` to another
+OpenAI LiteLLM model name.
 
 The Make target fails fast when credentials are missing and checks ADK's
 generated eval result JSON so failed cases do not appear green just because the
