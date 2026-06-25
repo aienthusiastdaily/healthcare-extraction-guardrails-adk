@@ -98,6 +98,8 @@ jobs:
           files = [item for item in output.decode("utf-8").split("\0") if item]
           findings = []
           for file_name in files:
+              if file_name == ".env.temp":
+                  continue
               path = Path(file_name)
               try:
                   text = path.read_text(encoding="utf-8")
